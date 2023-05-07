@@ -1,10 +1,10 @@
-use super::{Method, method::MethodError};
+use super::{Method, method::MethodError, QueryString, Value as QueryStringValue};
 use std::{str::{self, FromStr}, convert::TryFrom, error::Error, fmt::{Display, Formatter, Result as FmtResult, Debug}};
 
 pub struct Request<'buf> {
 
     path: &'buf str,
-    query_string: Option<&'buf str>,
+    query_string: Option<QueryString<'buf>>,
     method: Method
 }
 
@@ -26,7 +26,7 @@ impl<'buf> TryFrom<&'buf [u8]> for Request<'buf> {
 
         let mut query_string = None;
         if let Some(q_index) = path.find('?') {
-            query_string = Some(&path[(q_index + 1)..]);
+            query_string = Some(QueryString::from(&path[(q_index + 1)..]));
             path = &path[..q_index];
         }
 
