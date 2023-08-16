@@ -1,10 +1,12 @@
 use std::collections::HashMap;
 use crate::http::query_string::Value::{Multiple, Single}; //because the enum is not exposed to the scope of other structs by default
 
+#[derive(Debug)]
 pub struct QueryString<'buf> {
     data: HashMap<&'buf str, Value<'buf>>
 }
 
+#[derive(Debug)]
 pub enum Value<'buf> {
     Single(&'buf str),
     Multiple(Vec<&'buf str>)

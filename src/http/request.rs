@@ -1,6 +1,7 @@
 use super::{Method, method::MethodError, QueryString, Value as QueryStringValue};
 use std::{str::{self, FromStr}, convert::TryFrom, error::Error, fmt::{Display, Formatter, Result as FmtResult, Debug}};
 
+#[derive(Debug)]
 pub struct Request<'buf> {
 
     path: &'buf str,
@@ -49,6 +50,18 @@ impl<'buf> Request<'buf> {
         }
 
         None
+    }
+
+    pub fn get_path(&self) -> &str {
+        self.path
+    }
+
+    pub fn get_method(&self) -> &Method {
+        &self.method
+    }
+
+    pub fn get_query_string(&self) -> Option<&QueryString<'buf>> {
+        self.query_string.as_ref()
     }
 }
 
